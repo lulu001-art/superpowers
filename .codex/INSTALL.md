@@ -1,6 +1,6 @@
 # Installing Superpowers for Codex
 
-Enable superpowers skills in Codex via native skill discovery. Just clone and symlink.
+Enable the skills through Codex native skill discovery. Use this repository as the canonical source; do not keep a second active Superpowers clone or symlink.
 
 ## Prerequisites
 
@@ -8,10 +8,17 @@ Enable superpowers skills in Codex via native skill discovery. Just clone and sy
 
 ## Installation
 
-1. **Clone the superpowers repository:**
+1. **Clone this repository:**
    ```bash
-   git clone https://github.com/obra/superpowers.git ~/.codex/superpowers
+   git clone https://github.com/lulu001-art/superpowers.git ~/.codex/superpowers
    ```
+
+   If `~/.codex/superpowers` already exists, verify its origin before continuing:
+   ```bash
+   git -C ~/.codex/superpowers remote get-url origin
+   ```
+
+   If it points somewhere else, either archive that clone and replace it with this repository, or intentionally keep the other source and do not activate this one. Only one Superpowers source should be active in Codex discovery.
 
 2. **Create the skills symlink:**
    ```bash
@@ -25,38 +32,37 @@ Enable superpowers skills in Codex via native skill discovery. Just clone and sy
    cmd /c mklink /J "$env:USERPROFILE\.agents\skills\superpowers" "$env:USERPROFILE\.codex\superpowers\skills"
    ```
 
-3. **Restart Codex** (quit and relaunch the CLI) to discover the skills.
+3. **Restart Codex** to discover the skills.
 
 ## Migrating from old bootstrap
 
-If you installed superpowers before native skill discovery, you need to:
+If you installed Superpowers before native skill discovery:
 
-1. **Update the repo:**
-   ```bash
-   cd ~/.codex/superpowers && git pull
-   ```
-
-2. **Create the skills symlink** (step 2 above) — this is the new discovery mechanism.
-
-3. **Remove the old bootstrap block** from `~/.codex/AGENTS.md` — any block referencing `superpowers-codex bootstrap` is no longer needed.
-
-4. **Restart Codex.**
+1. Update or replace the clone so the active source is intentional and unique.
+2. Create the skills symlink from step 2.
+3. Remove any old `superpowers-codex bootstrap` block from `~/.codex/AGENTS.md`; native skill discovery makes that block unnecessary.
+4. Restart Codex.
 
 ## Verify
 
 ```bash
+git -C ~/.codex/superpowers remote get-url origin
 ls -la ~/.agents/skills/superpowers
 ```
 
-You should see a symlink (or junction on Windows) pointing to your superpowers skills directory.
+Expected origin:
+
+```text
+https://github.com/lulu001-art/superpowers.git
+```
+
+The `superpowers` entry should point to `~/.codex/superpowers/skills`.
 
 ## Updating
 
 ```bash
-cd ~/.codex/superpowers && git pull
+git -C ~/.codex/superpowers pull --ff-only
 ```
-
-Skills update instantly through the symlink.
 
 ## Uninstalling
 
@@ -64,4 +70,4 @@ Skills update instantly through the symlink.
 rm ~/.agents/skills/superpowers
 ```
 
-Optionally delete the clone: `rm -rf ~/.codex/superpowers`.
+Optionally archive or delete `~/.codex/superpowers` after confirming it is not used elsewhere.
